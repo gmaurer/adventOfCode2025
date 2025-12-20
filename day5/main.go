@@ -14,13 +14,12 @@ type idRange struct {
 }
 
 func main() {
-	startTime := time.Now()
+
 	input, err := os.ReadFile("input.txt")
 	if err != nil {
 		panic(err)
 	}
-
-	idToCheck := []int{}
+	startTime := time.Now()
 	rangesOf := []idRange{}
 	fresh := 0
 
@@ -28,16 +27,6 @@ func main() {
 
 	rangesInput := strings.Split(inputLines[0], "\n")
 	ids := strings.Split(inputLines[1], "\n")
-	for _, idStr := range ids {
-		if idStr == "" {
-			continue
-		}
-		id, err := strconv.Atoi(idStr)
-		if err != nil {
-			panic(err)
-		}
-		idToCheck = append(idToCheck, id)
-	}
 	for _, line := range rangesInput {
 		parts := strings.Split(line, "-")
 		start, err := strconv.Atoi(parts[0])
@@ -55,11 +44,19 @@ func main() {
 
 	}
 
-	for _, i := range idToCheck {
-		if helperFunction(i, rangesOf) {
+	for _, idStr := range ids {
+		if idStr == "" {
+			continue
+		}
+		id, err := strconv.Atoi(idStr)
+		if err != nil {
+			panic(err)
+		}
+		if helperFunction(id, rangesOf) {
 			fresh += 1
 		}
 	}
+
 	elapsed := time.Since(startTime)
 	fmt.Println("Fresh Ingreds:", fresh)
 	fmt.Println("Elapsed Time:", elapsed)
